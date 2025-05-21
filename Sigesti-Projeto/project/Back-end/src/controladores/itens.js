@@ -1,4 +1,4 @@
-const db = require('../conexao');
+const knex = require('../conexao');
 
 
 // Obter um item específico por ID
@@ -6,7 +6,7 @@ const listarItem = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const item = await db('itens').where({ id }).first();
+    const item = await knex('itens').where({ id }).first();
 
     if (!item) {
       return res.status(404).json({ erro: 'Item não encontrado.' });
@@ -23,7 +23,7 @@ const listarItem = async (req, res) => {
 // Listar todos os itens
 const listarItens = async(req, res) => {
   try {
-    const itens = await db('itens').select('*');
+    const itens = await knex('itens').select('*');
     return res.json(itens);
   } catch (error) {
     console.error('Erro ao listar itens:', error); // <--- log detalhado
@@ -50,12 +50,12 @@ const cadastrarItem = async(req, res) => {
   }
 
   try {
-    const itemExiste = await db('itens').where({ numero_serie }).first();
+    const itemExiste = await knex('itens').where({ numero_serie }).first();
     if (itemExiste) {
       return res.status(400).json({ erro: 'Número de série já cadastrado.' });
     }
 
-    const novoItem = await db('itens')
+    const novoItem = await knex('itens')
       .insert({
         nome,
         tipo,
@@ -81,7 +81,7 @@ const atualizarItem = async (req, res) => {
   const dados = req.body;
 
   try {
-    const itemExistente = await db('itens').where({ id }).first();
+    const itemExistente = await knex('itens').where({ id }).first();
     if (!itemExistente) {
       return res.status(404).json({ erro: 'Item não encontrado.' });
     }
@@ -89,7 +89,7 @@ const atualizarItem = async (req, res) => {
       dados.numero_serie &&
       dados.numero_serie !== itemExistente.numero_serie
     ) {
-      const duplicado = await db('itens')
+      const duplicado = await knex('itens')
         .where('numero_serie', dados.numero_serie)
         .andWhereNot('id', id)
         .first();
@@ -101,7 +101,7 @@ const atualizarItem = async (req, res) => {
       }
     }
 
-    await db('itens').where({ id }).update(dados);
+    await knex('itens').where({ id }).update(dados);
     return res.json({ mensagem: 'Item atualizado com sucesso.' });
 
   } catch (error) {
@@ -114,12 +114,12 @@ const deletarItem = async (req, res) =>{
   const { id } = req.params;
 
   try {
-    const item = await db('itens').where({ id }).first();
+    const item = await knex('itens').where({ id }).first();
     if (!item) {
       return res.status(404).json({ erro: 'Item não encontrado.' });
     }
 
-    await db('itens').where({ id }).del();
+    await knex('itens').where({ id }).del();
     return res.json({ mensagem: 'Item excluído com sucesso.' });
   } catch (error) {
     return res.status(500).json({ erro: 'Erro ao excluir item.' });
