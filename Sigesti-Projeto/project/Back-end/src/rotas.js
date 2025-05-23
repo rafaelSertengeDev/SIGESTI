@@ -23,7 +23,7 @@ rotas.delete('/itens/deletar/:id',autenticar,deletarItem);
 rotas.get('/usuarios', autenticar,autorizar('admin'), listarUsuarios);
 rotas.get('/usuarios/buscar/:id', autenticar,autorizar('admin'),obterUsuario);
 rotas.put('/usuarios/editar/:id', autenticar,autorizar('admin'),editarUsuario);
-rotas.post('/usuarios/cadastrar', autenticar,autorizar('admin'),cadastrarUsuario);
+rotas.post('/usuarios/cadastrar', cadastrarUsuario);
 rotas.delete('/usuarios/deletar/:id', autenticar,autorizar('admin'),excluirUsuario);
 
 // chamados

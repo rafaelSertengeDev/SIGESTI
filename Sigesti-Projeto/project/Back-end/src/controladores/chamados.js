@@ -23,8 +23,8 @@ const cadastrarChamado = async (req, res) => {
 
   try {
     const dataFinal = data_registro
-      ? dayjs(data_registro).tz('America/Sao_Paulo').toDate()
-      : dayjs().tz('America/Sao_Paulo').toDate();
+      ? dayjs(data_registro).tz(TIMEZONE).toDate()
+      : dayjs().tz(TIMEZONE).toDate();
 
     const [chamado] = await knex('chamados')
       .insert({
@@ -38,7 +38,7 @@ const cadastrarChamado = async (req, res) => {
 
     // Formatar antes de enviar
     chamado.data_registro = dayjs(chamado.data_registro)
-      .tz('America/Sao_Paulo')
+      .tz(TIMEZONE)
       .format('YYYY-MM-DD HH:mm:ss');
 
     return res.status(201).json(chamado);

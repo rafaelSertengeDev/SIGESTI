@@ -48,7 +48,7 @@ const listarUsuarios = async(req, res) => {
 }
 
 // 3. Buscar por ID
-const obterUsuario = async(req, res) => {
+const obterUsuario = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -57,12 +57,15 @@ const obterUsuario = async(req, res) => {
       return res.status(404).json({ erro: 'Usuário não encontrado.' });
     }
 
-    return res.json(usuario);
+    // Remove a senha antes de enviar a resposta
+    const { senha, ...dadosUsuario } = usuario;
+
+    return res.json(dadosUsuario);
   } catch (error) {
     console.error('Erro ao obter usuário:', error);
     return res.status(500).json({ erro: 'Erro interno ao obter usuário.' });
   }
-}
+};
 
 // 4. Atualizar
 const  editarUsuario = async(req, res) =>{
