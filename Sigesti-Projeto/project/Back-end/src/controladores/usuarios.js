@@ -1,7 +1,8 @@
 const  knex  = require('../conexao');
+const bcrypt = require('bcryptjs');
 
 // 1. Criar usuário
-const cadastrarUsuario = async(req, res) => {
+const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha, cargo } = req.body;
 
   if (!nome || !email || !senha || !cargo) {
@@ -14,8 +15,18 @@ const cadastrarUsuario = async(req, res) => {
       return res.status(400).json({ erro: 'Email já cadastrado.' });
     }
 
+    const cargosPermitidos = ['admin', 'técnico', 'colaborador'];
+    const cargoNormalizado = cargo.trim().toLowerCase();
+
+if (!cargosPermitidos.includes(cargo) || !cargosPermitidos.includes(cargoNormalizado) ) {
+  return res.status(400).json({ erro: 'Cargo inválido. Use: admin, técnico ou colaborador.' });
+}
+
+    // Criptografar a senha antes de salvar
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
+
     const [usuario] = await knex('usuarios')
-      .insert({ nome, email, senha, cargo })
+      .insert({ nome, email, senha: senhaCriptografada, cargo })
       .returning(['id', 'nome', 'email', 'cargo']);
 
     return res.status(201).json(usuario);
@@ -23,7 +34,7 @@ const cadastrarUsuario = async(req, res) => {
     console.error('Erro ao criar usuário:', error);
     return res.status(500).json({ erro: 'Erro interno ao criar usuário.' });
   }
-}
+};
 
 // 2. Listar todos
 const listarUsuarios = async(req, res) => {
