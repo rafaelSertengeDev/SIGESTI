@@ -107,10 +107,45 @@ const excluirUsuario = async (req, res) => {
   }
 }
 
+// const perfil = async (req, res) => {
+//   const { id } = req.usuario; 
+
+//   try {
+//     const usuario = await knex('usuarios').where({ id }).first();
+
+//     if (!usuario) {
+//       return res.status(404).json({ erro: 'Usuário não encontrado.' });
+//     }
+
+//     const { senha, ...dadosUsuario } = usuario;
+//     return res.json(dadosUsuario);
+//   } catch (error) {
+//     console.error('Erro ao obter perfil:', error);
+//     return res.status(500).json({ erro: 'Erro interno ao obter perfil.' });
+//   }
+// };
+
+const perfil = async (req, res) => {
+  try {
+    const usuario = await knex('usuarios').where({ id: req.usuario.id }).first();
+
+    if (!usuario) {
+      return res.status(404).json({ erro: 'Usuário não encontrado.' });
+    }
+
+    const { senha, ...dadosUsuario } = usuario;
+    return res.json(dadosUsuario);
+  } catch (error) {
+    console.error('Erro ao obter perfil:', error);
+    return res.status(500).json({ erro: 'Erro ao obter perfil.' });
+  }
+};
+
 module.exports = {
   cadastrarUsuario,
   listarUsuarios,
   obterUsuario,
   editarUsuario,
   excluirUsuario,
+  perfil,
 };

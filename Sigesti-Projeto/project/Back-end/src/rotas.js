@@ -2,13 +2,14 @@ const express = require('express')
 const rotas = express();
 rotas.use(express.json());
 const {listarItens,cadastrarItem,atualizarItem,deletarItem,listarItem} = require("./controladores/itens.js");
-const {cadastrarUsuario,listarUsuarios,obterUsuario,editarUsuario,excluirUsuario} = require("./controladores/usuarios.js");
+const {cadastrarUsuario,listarUsuarios,obterUsuario,editarUsuario,excluirUsuario,perfil} = require("./controladores/usuarios.js");
 const {cadastrarChamado,listarChamados,obterChamado,editarChamado,excluirChamado,} = require("./controladores/chamados.js");
 const { login } = require('./controladores/login');
 const autenticar = require('./intermediarios/autenticacao');
 const autorizar = require('./intermediarios/permissoes.js');
 
 rotas.post('/login', login);
+rotas.get('/perfil', autenticar,perfil);
 
 
     // Itens
