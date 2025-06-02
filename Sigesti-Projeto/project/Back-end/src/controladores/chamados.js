@@ -14,7 +14,8 @@ const cadastrarChamado = async (req, res) => {
     categoria,
     descricao,
     tecnico_id,
-    data_registro
+    data_registro,
+    status
   } = req.body;
 
   if (!equipamento_id || !categoria || !descricao || !tecnico_id) {
@@ -32,7 +33,8 @@ const cadastrarChamado = async (req, res) => {
         categoria,
         descricao,
         tecnico_id,
-        data_registro: dataFinal
+        data_registro: dataFinal,
+        status
       })
       .returning('*');
 

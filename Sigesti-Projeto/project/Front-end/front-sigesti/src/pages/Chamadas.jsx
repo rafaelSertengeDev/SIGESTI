@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import FiltrosChamadas from "../components/FiltrosChamadas.jsx";
+import FiltrosChamadas from "../components/FiltrosChamadas";
 import "../styles/chamadas.css";
 
 const Chamadas = () => {
@@ -47,6 +47,29 @@ const Chamadas = () => {
 
     fetchChamados();
   }, [navigate]);
+
+  const [tecnicos, setTecnicos] = useState([]);
+
+useEffect(() => {
+  const fetchTecnicos = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:3000/tecnicos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setTecnicos(data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar técnicos:", error);
+    }
+  };
+
+  fetchTecnicos();
+}, []);
 
   const formatarData = (dataStr) => {
     const dataFormatada = new Date(dataStr.replace(" ", "T"));
@@ -158,6 +181,8 @@ const Chamadas = () => {
           filtros={filtros}
           todosChamados={chamados}
           onChange={handleFiltroChange}
+          setFiltros={setFiltros}
+  tecnicos={tecnicos}
         />
 
         {chamadosFiltrados.length === 0 ? (

@@ -2,7 +2,7 @@ const express = require('express')
 const rotas = express();
 rotas.use(express.json());
 const {listarItens,cadastrarItem,atualizarItem,deletarItem,listarItem} = require("./controladores/itens.js");
-const {cadastrarUsuario,listarUsuarios,obterUsuario,editarUsuario,excluirUsuario,perfil} = require("./controladores/usuarios.js");
+const {cadastrarUsuario,listarUsuarios,listarTecnicos,obterUsuario,editarUsuario,excluirUsuario,perfil} = require("./controladores/usuarios.js");
 const {cadastrarChamado,listarChamados,obterChamado,editarChamado,excluirChamado,} = require("./controladores/chamados.js");
 const { login } = require('./controladores/login');
 const autenticar = require('./intermediarios/autenticacao');
@@ -21,7 +21,8 @@ rotas.delete('/itens/deletar/:id',autenticar,deletarItem);
 
 
 // usuarios
-rotas.get('/usuarios', autenticar,autorizar('admin'), listarUsuarios);
+rotas.get('/usuarios', autenticar, listarUsuarios);
+rotas.get('/tecnicos', autenticar, listarTecnicos);
 rotas.get('/usuarios/buscar/:id', autenticar,autorizar('admin'),obterUsuario);
 rotas.put('/usuarios/editar/:id', autenticar,autorizar('admin'),editarUsuario);
 rotas.post('/usuarios/cadastrar', cadastrarUsuario);

@@ -37,15 +37,38 @@ if (!cargosPermitidos.includes(cargo) || !cargosPermitidos.includes(cargoNormali
 };
 
 // 2. Listar todos
-const listarUsuarios = async(req, res) => {
+
+const listarUsuarios = async (req, res) => {
   try {
-    const usuarios = await knex('usuarios').select('id', 'nome', 'email', 'cargo');
+    const { cargo } = req.query;
+
+    let query = knex("usuarios").select("id", "nome", "email", "cargo");
+
+    if (cargo) {
+      query = query.where("cargo", cargo);
+    }
+
+    const usuarios = await query;
+
     return res.json(usuarios);
   } catch (error) {
-    console.error('Erro ao listar usuários:', error);
-    return res.status(500).json({ erro: 'Erro ao listar usuários.' });
+    console.error("Erro ao listar usuários:", error);
+    return res.status(500).json({ erro: "Erro ao listar usuários." });
   }
-}
+};
+
+const listarTecnicos = async (req, res) => {
+  try {
+    const tecnicos = await knex('usuarios')
+      .select('id', 'nome')
+      .whereIn('cargo', ['técnico', 'admin']);
+
+    res.status(200).json(tecnicos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: "Erro ao listar técnicos" });
+  }
+};
 
 // 3. Buscar por ID
 const obterUsuario = async (req, res) => {
@@ -148,4 +171,5 @@ module.exports = {
   editarUsuario,
   excluirUsuario,
   perfil,
+  listarTecnicos,
 };
