@@ -15,8 +15,9 @@ const FiltrosChamadas = ({ filtros, onChange, tecnicos, setFiltros, todosChamado
         <select name="status" value={filtros.status} onChange={handleChange}>
           <option value="">Todos</option>
           <option value="Registrado">Registrado</option>
-          <option value="Em andamento">Em andamento</option>
-          <option value="Concluído">Concluído</option>
+          <option value="Resolvido">Resolvido</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Cancelado">Cancelado</option>
         </select>
       </div>
 

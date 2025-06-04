@@ -1,0 +1,85 @@
+/* Lista de Itens */
+.lista-itens {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+}
+
+/* Formulário de novo item */
+.form-novo-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-novo-item label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-novo-item input,
+.form-novo-item select,
+.form-novo-item textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Ações de cada item */
+.acoes-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Estilo para botões adicionais */
+.button-edit {
+  background-color: #ffc107;
+  color: white;
+}
+
+.button-edit:hover {
+  background-color: #e0a800;
+}
+
+.button-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.button-danger:hover {
+  background-color: #c82333;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .acoes-item {
+    flex-direction: column;
+  }
+
+  .acoes-item .button {
+    width: 100%;
+  }
+
+  .form-novo-item {
+    padding: 0.8rem;
+  }
+}
